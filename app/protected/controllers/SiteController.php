@@ -162,14 +162,15 @@ class SiteController extends Controller
     protected function sendMail(Register $model)
     {
         // текст письма
-        $url = $this->createAbsoluteUrl('token', ['token' => $model->token]);
-        $message = "<a href='{$url}'>{$url}</a>";
+        $message = $this->createAbsoluteUrl('token', ['token' => $model->token]);
 
         // тема письма
-        $subject = '=?UTF-8?B?' . base64_encode('Вы зарегистрировались на сайте.') . '?=';
+        $subject = '=?UTF-8?B?' . base64_encode('Вы зарегистрировались на сайте') . '?=';
 
-        $headers = "From: {Yii::app()->params['adminEmail']} <{Yii::app()->params['adminEmail']}>\r\n" .
-            "Reply-To: {Yii::app()->params['adminEmail']}\r\n" .
+        $adminEmail = Yii::app()->params['adminEmail'];
+
+        $headers = "From: {$adminEmail} <{$adminEmail}>\r\n" .
+            "Reply-To: {$adminEmail}\r\n" .
             "MIME-Version: 1.0\r\n" .
             "Content-Type: text/plain; charset=UTF-8";
 
